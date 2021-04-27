@@ -7,6 +7,11 @@
 
 import UIKit
 
+@objc
+public protocol ImageSlideshowItemDelegate: class {
+    @objc optional func zoomStarted()
+}
+
 /// Used to wrap a single slideshow item and allow zooming on it
 @objcMembers
 open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
@@ -22,6 +27,8 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
 
     /// Guesture recognizer to detect double tap to zoom
     open var gestureRecognizer: UITapGestureRecognizer?
+
+    open weak var zoomingDelegate: ImageSlideshowItemDelegate?
 
     /// Holds if the zoom feature is enabled
     public let zoomEnabled: Bool
@@ -231,6 +238,7 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
 
     open func scrollViewDidZoom(_ scrollView: UIScrollView) {
         setPictoCenter()
+        zoomingDelegate?.zoomStarted?()
     }
 
     open func viewForZooming(in scrollView: UIScrollView) -> UIView? {

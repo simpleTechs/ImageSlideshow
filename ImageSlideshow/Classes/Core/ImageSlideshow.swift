@@ -324,6 +324,7 @@ open class ImageSlideshow: UIView {
         var i = 0
         for image in scrollViewImages {
             let item = ImageSlideshowItem(image: image, zoomEnabled: zoomEnabled, activityIndicator: activityIndicator?.create(), maximumScale: maximumScale)
+            item.zoomingDelegate = self
             item.imageView.contentMode = contentScaleMode
             slideshowItems.append(item)
             scrollView.addSubview(item)
@@ -560,6 +561,12 @@ open class ImageSlideshow: UIView {
         if let currentPage = pageIndicator?.page {
             setCurrentPage(currentPage, animated: true)
         }
+    }
+}
+
+extension ImageSlideshow: ImageSlideshowItemDelegate {
+    public func zoomStarted() {
+        delegate?.imageSlideshowWillBeginDragging?(self)
     }
 }
 
