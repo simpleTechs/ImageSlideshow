@@ -576,6 +576,10 @@ extension ImageSlideshow: UIScrollViewDelegate {
         didEndDecelerating?()
         delegate?.imageSlideshowDidEndDecelerating?(self)
     }
+    
+    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        delegate?.imageSlideshowWillBeginDragging?(self)
+    }
 
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if circular && (scrollViewImages.count > 1) {
